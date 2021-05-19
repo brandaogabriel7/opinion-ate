@@ -14,7 +14,7 @@ jobs:
         run: yarn test --watchAll=false
 
       - name: E2E Tests
-        uses: cypress-io/github-acion@v2
+        uses: cypress-io/github-action@v2
         with:
           start: yarn start
           wait-on: 'http://localhost:3000'

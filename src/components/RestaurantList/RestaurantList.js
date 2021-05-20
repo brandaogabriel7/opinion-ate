@@ -10,4 +10,4 @@ const RestaurantList = () => (
   </Fragment>
 );
 
-export default RestaurantList;
+export { RestaurantList as default, RestaurantList };

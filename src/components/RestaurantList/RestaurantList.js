@@ -1,18 +1,15 @@
 import { Fragment, useEffect } from 'react';
 
-const RestaurantList = ({ loadRestaurants }) => {
+const RestaurantList = ({ loadRestaurants, restaurants }) => {
   useEffect(() => {
-    if (!!loadRestaurants) {
-      loadRestaurants();
-    }
+    loadRestaurants();
   }, [loadRestaurants]);
 
   return (
     <Fragment>
       <ul>
-        <li>a</li>
-        <li>b</li>
-        <li>c</li>
+        {restaurants &&
+          restaurants.map((r, index) => <li key={index}>{r.name}</li>)}
       </ul>
     </Fragment>
   );

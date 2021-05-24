@@ -1,29 +1,50 @@
 import { render, screen } from '@testing-library/react';
 import { RestaurantList } from '../RestaurantList';
 
-const NOOP = () => {};
 describe('RestaurantList should', () => {
-  it('load restaurants on first render', () => {
-    const loadRestaurants = jest.fn().mockName('loadRestaurants');
+  let loadRestaurants;
 
+  beforeEach(() => {
+    loadRestaurants = jest.fn().mockName('loadRestaurants');
+  });
+
+  it('load restaurants on first render', () => {
     render(<RestaurantList loadRestaurants={loadRestaurants} />);
 
     expect(loadRestaurants).toHaveBeenCalled();
   });
 
-  it('display the restaurants', () => {
-    const restaurants = [
-      { id: 1, name: 'Sushi Place' },
-      { id: 2, name: 'Pizza Place' }
+  describe('display the restaurants', () => {
+    const testCases = [
+      [
+        [
+          { id: 1, name: 'Sushi Place' },
+          { id: 2, name: 'Pizza Place' }
+        ]
+      ],
+      [
+        [
+          { id: 1, name: 'Burger Place' },
+          { id: 2, name: 'Sushi Place' },
+          { id: 3, name: 'Mexican food Place' }
+        ]
+      ]
     ];
 
-    render(<RestaurantList loadRestaurants={NOOP} restaurants={restaurants} />);
+    it.each(testCases)('display the restaurants %j', (restaurants = []) => {
+      render(
+        <RestaurantList
+          loadRestaurants={loadRestaurants}
+          restaurants={restaurants}
+        />
+      );
 
-    const restaurantListItems = screen.getAllByRole('listitem');
-    expect(restaurantListItems.length).toBe(restaurants.length);
+      const restaurantListItems = screen.getAllByRole('listitem');
+      expect(restaurantListItems.length).toBe(restaurants.length);
 
-    restaurantListItems.forEach((r, index) => {
-      expect(r.textContent).toBe(restaurants[index].name);
+      restaurantListItems.forEach((r, index) => {
+        expect(r.textContent).toBe(restaurants[index].name);
+      });
     });
   });
 });
